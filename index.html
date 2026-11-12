@@ -1,12 +1,12 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gael Â· Automatizaciones n8n que no se rompen</title>
-<meta name="description" content="Dos demos reales de automatizaciÃ³n con n8n: recuperaciÃ³n de carritos abandonados con reintentos e idempotencia, y captura de leads + facturas PDF a Excel. Sin maquetas.">
+<title>Gael · Automatizaciones n8n que no se rompen</title>
+<meta name="description" content="Dos demos reales de automatización con n8n: recuperación de carritos abandonados con reintentos e idempotencia, y captura de leads + facturas PDF a Excel. Sin maquetas.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Gael Â· Automatizaciones n8n que no se rompen">
+<meta property="og:title" content="Gael · Automatizaciones n8n que no se rompen">
 <meta property="og:description" content="Demos reales: errores, reintentos y cero duplicados. Mira los dos flujos completos.">
 <meta property="og:image" content="https://gael3425.github.io/demos-n8n/posters/demo-1.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -111,11 +111,11 @@
 
 <header>
   <div class="wrap">
-    <div class="brand">Gael <span>Â·</span> automatizaciones n8n</div>
+    <div class="brand">Gael <span>·</span> automatizaciones n8n</div>
     <nav>
       <a href="#demo-1">Carrito abandonado</a>
       <a href="#demo-2">Leads y facturas</a>
-      <a href="#como-trabajo">CÃ³mo trabajo</a>
+      <a href="#como-trabajo">Cómo trabajo</a>
       <a class="lang" href="en.html" hreflang="en">EN</a>
     </nav>
   </div>
@@ -124,24 +124,24 @@
 <main class="wrap">
 
   <div class="hero">
-    <span class="eyebrow">Portafolio Â· n8n self-hosted</span>
+    <span class="eyebrow">Portafolio · n8n self-hosted</span>
     <h1>Automatizaciones que aguantan el caso real: <em>errores, reintentos y cero duplicados</em>.</h1>
     <p class="lead">
       Dos demos grabados de punta a punta. Nada de maquetas: webhooks reales, tablas de datos,
       ejecuciones en vivo y el caso de fallo incluido. Es lo que un negocio necesita antes de
-      confiar su operaciÃ³n a un flujo.
+      confiar su operación a un flujo.
     </p>
     <div class="cta">
       <a class="btn" href="#demo-1">Ver el demo de fallos (1:58)</a>
       <a class="btn ghost" href="#demo-2">Ver leads y facturas (1:28)</a>
     </div>
-    <p class="note">Datos de demostraciÃ³n. No hay informaciÃ³n de clientes reales.</p>
+    <p class="note">Datos de demostración. No hay información de clientes reales.</p>
   </div>
 
   <section id="demo-1">
     <div class="sec-head">
-      <h2>1 Â· RecuperaciÃ³n de carritos abandonados</h2>
-      <span class="tag">1:58 Â· 1080p</span>
+      <h2>1 · Recuperación de carritos abandonados</h2>
+      <span class="tag">1:58 · 1080p</span>
     </div>
     <article class="demo">
       <video controls playsinline preload="metadata" poster="posters/demo-1.jpg">
@@ -155,14 +155,14 @@
         </div>
         <p>
           Tres entradas (carrito abandonado, compra completada y un proceso programado cada hora),
-          una mÃ¡quina de estados y una tabla de auditorÃ­a. Todo separado por mÃ³dulos y documentado
+          una máquina de estados y una tabla de auditoría. Todo separado por módulos y documentado
           dentro del propio workflow.
         </p>
         <ul>
-          <li><b>Idempotencia real:</b> el mismo evento se reenvÃ­a y no crea fila ni recordatorio nuevo.</li>
-          <li><b>Fallo de la API de correo:</b> tres intentos con espera, el estado no avanza y se guarda el Ãºltimo error con el mensaje original.</li>
+          <li><b>Idempotencia real:</b> el mismo evento se reenvía y no crea fila ni recordatorio nuevo.</li>
+          <li><b>Fallo de la API de correo:</b> tres intentos con espera, el estado no avanza y se guarda el último error con el mensaje original.</li>
           <li><b>Reejecutar es seguro:</b> el scheduler vuelve a pasar y las cifras no cambian.</li>
-          <li><b>RecuperaciÃ³n:</b> si el cliente compra, el webhook corta la secuencia y no vuelve a escribirle.</li>
+          <li><b>Recuperación:</b> si el cliente compra, el webhook corta la secuencia y no vuelve a escribirle.</li>
         </ul>
       </div>
     </article>
@@ -170,8 +170,8 @@
 
   <section id="demo-2">
     <div class="sec-head">
-      <h2>2 Â· Captura de leads y facturas PDF a Excel</h2>
-      <span class="tag">1:28 Â· 1080p</span>
+      <h2>2 · Captura de leads y facturas PDF a Excel</h2>
+      <span class="tag">1:28 · 1080p</span>
     </div>
     <article class="demo">
       <video controls playsinline preload="metadata" poster="posters/demo-2.jpg">
@@ -184,60 +184,60 @@
           <span class="pill">Formulario + PDF</span>
         </div>
         <p>
-          Un formulario pÃºblico que entrega al sistema de clientes y un convertidor de facturas
-          PDF a Excel. Los dos con validaciÃ³n, deduplicaciÃ³n y entrega con reintentos.
+          Un formulario público que entrega al sistema de clientes y un convertidor de facturas
+          PDF a Excel. Los dos con validación, deduplicación y entrega con reintentos.
         </p>
         <ul>
-          <li><b>Lead incompleto:</b> no se pierde, queda en revisiÃ³n y avisa al equipo.</li>
+          <li><b>Lead incompleto:</b> no se pierde, queda en revisión y avisa al equipo.</li>
           <li><b>Lead repetido:</b> se detecta por huella antes de escribir; no duplica filas ni avisos.</li>
           <li><b>Factura:</b> extrae el texto, valida que subtotal + IVA cuadre con el total y deduplica por folio.</li>
-          <li><b>PDF ilegible:</b> queda en revisiÃ³n con el motivo. Nunca se inventan nÃºmeros.</li>
+          <li><b>PDF ilegible:</b> queda en revisión con el motivo. Nunca se inventan números.</li>
         </ul>
       </div>
     </article>
   </section>
 
   <section>
-    <div class="sec-head"><h2>El estÃ¡ndar que aplico a todo</h2></div>
+    <div class="sec-head"><h2>El estándar que aplico a todo</h2></div>
     <div class="grid">
-      <div class="card"><h4>Errores explÃ­citos</h4><p>Nada falla en silencio: cada error queda registrado con su motivo y su payload.</p></div>
+      <div class="card"><h4>Errores explícitos</h4><p>Nada falla en silencio: cada error queda registrado con su motivo y su payload.</p></div>
       <div class="card"><h4>Reintentos con espera</h4><p>Sin duplicar etapas ya completadas. El estado avanza solo cuando la entrega fue exitosa.</p></div>
-      <div class="card"><h4>Nada se duplica</h4><p>Clave de deduplicaciÃ³n verificada antes de escribir, en entradas y reejecuciones.</p></div>
-      <div class="card"><h4>Estado por etapa</h4><p>Tablas de datos y auditorÃ­a para saber dÃ³nde estÃ¡ cada registro en todo momento.</p></div>
+      <div class="card"><h4>Nada se duplica</h4><p>Clave de deduplicación verificada antes de escribir, en entradas y reejecuciones.</p></div>
+      <div class="card"><h4>Estado por etapa</h4><p>Tablas de datos y auditoría para saber dónde está cada registro en todo momento.</p></div>
       <div class="card"><h4>Documentado dentro</h4><p>Sticky notes y README para que el flujo se pueda mantener sin adivinar.</p></div>
       <div class="card"><h4>Export incluido</h4><p>Entregamos el JSON del workflow para importarlo en tu instancia de n8n.</p></div>
     </div>
   </section>
 
   <section id="como-trabajo">
-    <div class="sec-head"><h2>CÃ³mo trabajo</h2></div>
+    <div class="sec-head"><h2>Cómo trabajo</h2></div>
     <div class="steps">
       <div class="step"><h4>Alcance</h4><p>Reviso tu proceso, los sistemas que toca y los casos de fallo. Te mando un alcance en 24 h.</p></div>
-      <div class="step"><h4>Precio fijo</h4><p>Pago fijo por implementaciÃ³n. Sin horas sorpresa ni bolsas abiertas.</p></div>
-      <div class="step"><h4>Entrega</h4><p>Workflow funcionando, documentaciÃ³n y export JSON. Lo pruebas antes de producciÃ³n.</p></div>
+      <div class="step"><h4>Precio fijo</h4><p>Pago fijo por implementación. Sin horas sorpresa ni bolsas abiertas.</p></div>
+      <div class="step"><h4>Entrega</h4><p>Workflow funcionando, documentación y export JSON. Lo pruebas antes de producción.</p></div>
       <div class="step"><h4>Mantenimiento</h4><p>Monitoreo, ajustes y soporte mensual opcional para que el flujo siga aguantando.</p></div>
     </div>
   </section>
 
   <div class="final">
-    <h2>Â¿Tienes un proceso que se rompe o te quita horas?</h2>
+    <h2>¿Tienes un proceso que se rompe o te quita horas?</h2>
     <p>
-      CuÃ©ntame quÃ© entra, quÃ© sale y quÃ© pasa cuando algo falla. Si encaja, te propongo un build
-      con precio fijo y fecha de entrega. Trabajo con 2â€“4 builds al mes.
+      Cuéntame qué entra, qué sale y qué pasa cuando algo falla. Si encaja, te propongo un build
+      con precio fijo y fecha de entrega. Trabajo con 2–4 builds al mes.
     </p>
     <div class="cta" style="margin-top:18px">
-      <a class="btn" href="https://github.com/Gael3425" target="_blank" rel="noopener">EscrÃ­beme por GitHub</a>
+      <a class="btn" href="https://github.com/Gael3425" target="_blank" rel="noopener">Escríbeme por GitHub</a>
       <a class="btn ghost" href="#demo-1">Volver a ver el demo</a>
     </div>
-    <p class="note">TambiÃ©n puedes responder al mensaje donde te compartÃ­ este enlace.</p>
+    <p class="note">También puedes responder al mensaje donde te compartí este enlace.</p>
   </div>
 
 </main>
 
 <footer>
   <div class="wrap">
-    <span>Gael Â· automatizaciones n8n Â· pago fijo por build</span>
-    <span>Datos de demostraciÃ³n Â· 2026</span>
+    <span>Gael · automatizaciones n8n · pago fijo por build</span>
+    <span>Datos de demostración · 2026</span>
   </div>
 </footer>
 
