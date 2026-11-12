@@ -1,6 +1,6 @@
-check.js
-inspect-forms.js
-shot-*.png
 node_modules/
+check*.js
+dump-*.js
+inspect-*.js
+shot-*.png
 
-dump-automatch.js
