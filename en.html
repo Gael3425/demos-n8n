@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gael · n8n automations that survive the real world</title>
+<meta name="description" content="Two real n8n automation demos: abandoned-cart recovery with retries and idempotency, and lead capture + PDF invoices to Excel. No mockups.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Gael · n8n automations that survive the real world">
+<meta property="og:description" content="Real demos: explicit errors, retries and zero duplicates. Watch both flows end to end.">
+<meta property="og:image" content="posters/demo-1.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="es" href="index.html">
+<link rel="alternate" hreflang="en" href="en.html">
+<style>
+  :root{
+    --bg:#0b0e13; --bg2:#11161d; --card:#151b24; --line:#232c38;
+    --text:#e8eef6; --muted:#93a1b3; --accent:#ff6d5a; --accent2:#ffb199;
+    --ok:#5ad1a5;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1060px; margin:0 auto; padding:0 22px}
+  header{
+    position:sticky; top:0; z-index:10; backdrop-filter:blur(10px);
+    background:rgba(11,14,19,.82); border-bottom:1px solid var(--line);
+  }
+  header .wrap{display:flex; align-items:center; justify-content:space-between; height:62px}
+  .brand{font-weight:800; letter-spacing:.2px}
+  .brand span{color:var(--accent)}
+  nav{display:flex; align-items:center}
+  nav a{color:var(--muted); font-size:14px; margin-left:20px}
+  nav a:hover{color:var(--text); text-decoration:none}
+  nav a.lang{border:1px solid var(--line); border-radius:999px; padding:4px 10px; font-size:12px; letter-spacing:.08em}
+  .hero{padding:72px 0 34px}
+  .eyebrow{
+    display:inline-block; font-size:12px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--accent2); border:1px solid var(--line); border-radius:999px;
+    padding:6px 12px; margin-bottom:18px; background:var(--bg2);
+  }
+  h1{font-size:clamp(30px,4.4vw,52px); line-height:1.12; margin:0 0 18px; letter-spacing:-.02em}
+  h1 em{font-style:normal; color:var(--accent)}
+  .lead{font-size:clamp(16px,1.6vw,19px); color:var(--muted); max-width:760px; margin:0 0 26px}
+  .cta{display:flex; flex-wrap:wrap; gap:12px; align-items:center}
+  .btn{
+    display:inline-block; padding:12px 20px; border-radius:10px; font-weight:700; font-size:15px;
+    border:1px solid var(--accent); background:var(--accent); color:#1a0d0a;
+  }
+  .btn:hover{filter:brightness(1.06); text-decoration:none}
+  .btn.ghost{background:transparent; color:var(--text); border-color:var(--line)}
+  .btn.ghost:hover{border-color:var(--muted)}
+  .note{color:var(--muted); font-size:13px; margin-top:14px}
+  section{padding:26px 0}
+  .sec-head{display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:18px}
+  h2{font-size:clamp(22px,2.6vw,30px); margin:0; letter-spacing:-.01em}
+  .tag{font-size:12px; color:var(--muted); border:1px solid var(--line); padding:4px 9px; border-radius:999px; white-space:nowrap}
+  .demo{
+    background:linear-gradient(180deg,var(--card),#121821);
+    border:1px solid var(--line); border-radius:16px; overflow:hidden; margin-bottom:26px;
+  }
+  .demo video{display:block; width:100%; aspect-ratio:16/9; background:#000}
+  .demo-body{padding:22px 22px 24px}
+  .demo-top{display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:6px}
+  .demo-top h3{margin:0; font-size:20px}
+  .pill{font-size:12px; color:var(--ok); border:1px solid rgba(90,209,165,.35); background:rgba(90,209,165,.08); padding:3px 9px; border-radius:999px}
+  .demo p{color:var(--muted); margin:6px 0 14px}
+  .demo ul{margin:0; padding-left:20px; color:var(--text)}
+  .demo li{margin:6px 0}
+  .demo li b{color:var(--accent2)}
+  .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px}
+  .card h4{margin:0 0 6px; font-size:15px}
+  .card p{margin:0; color:var(--muted); font-size:14px}
+  .steps{counter-reset:s; display:grid; grid-template-columns:repeat(4,1fr); gap:14px}
+  .step{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; position:relative}
+  .step:before{
+    counter-increment:s; content:counter(s); position:absolute; top:-10px; left:16px;
+    width:24px; height:24px; border-radius:50%; background:var(--accent); color:#1a0d0a;
+    font-weight:800; font-size:13px; display:grid; place-items:center;
+  }
+  .step h4{margin:6px 0 4px; font-size:15px}
+  .step p{margin:0; color:var(--muted); font-size:14px}
+  .final{
+    margin:18px 0 60px; border:1px solid var(--line); border-radius:18px; padding:34px;
+    background:radial-gradient(900px 240px at 20% 0%,rgba(255,109,90,.16),transparent),var(--bg2);
+  }
+  .final h2{margin-bottom:8px}
+  .final p{color:var(--muted); max-width:680px}
+  footer{border-top:1px solid var(--line); padding:26px 0 40px; color:var(--muted); font-size:13px}
+  footer .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px}
+  @media (max-width:860px){
+    .grid{grid-template-columns:1fr 1fr}
+    .steps{grid-template-columns:1fr 1fr}
+    nav a:not(.lang){display:none}
+  }
+  @media (max-width:560px){
+    .grid,.steps{grid-template-columns:1fr}
+    .hero{padding-top:48px}
+    .final{padding:24px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">Gael <span>·</span> n8n automation</div>
+    <nav>
+      <a href="#demo-1">Abandoned cart</a>
+      <a href="#demo-2">Leads &amp; invoices</a>
+      <a href="#how">How I work</a>
+      <a class="lang" href="index.html" hreflang="es">ES</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <span class="eyebrow">Portfolio · self-hosted n8n</span>
+    <h1>Automations that survive the real case: <em>errors, retries and zero duplicates</em>.</h1>
+    <p class="lead">
+      Two demos recorded end to end. No mockups: real webhooks, data tables, live executions
+      and the failure case included. That is what a business needs to see before trusting
+      its operation to a workflow.
+    </p>
+    <div class="cta">
+      <a class="btn" href="#demo-1">Watch the failure demo (1:58)</a>
+      <a class="btn ghost" href="#demo-2">Watch leads &amp; invoices (1:28)</a>
+    </div>
+    <p class="note">Demo data only. No real customer information. Videos are narrated in Spanish with on-screen captions.</p>
+  </div>
+
+  <section id="demo-1">
+    <div class="sec-head">
+      <h2>1 · Abandoned cart recovery</h2>
+      <span class="tag">1:58 · 1080p</span>
+    </div>
+    <article class="demo">
+      <video controls playsinline preload="metadata" poster="posters/demo-1.jpg">
+        <source src="videos/demo-1-carrito.mp4" type="video/mp4">
+        Your browser cannot play this video.
+      </video>
+      <div class="demo-body">
+        <div class="demo-top">
+          <h3>The case almost nobody shows: when the API fails</h3>
+          <span class="pill">Full flow</span>
+        </div>
+        <p>
+          Three entry points (cart abandoned, purchase completed, and an hourly scheduled job),
+          a state machine and an audit table. Everything split into modules and documented
+          inside the workflow itself.
+        </p>
+        <ul>
+          <li><b>Real idempotency:</b> the same event is sent twice and creates no new row and no new reminder.</li>
+          <li><b>Email API failure:</b> three attempts with backoff, the state does not advance, and the last error is stored with the original message.</li>
+          <li><b>Re-running is safe:</b> the scheduler runs again and the numbers do not change.</li>
+          <li><b>Recovery:</b> if the customer buys, the webhook stops the sequence and no further message goes out.</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section id="demo-2">
+    <div class="sec-head">
+      <h2>2 · Lead capture and PDF invoices to Excel</h2>
+      <span class="tag">1:28 · 1080p</span>
+    </div>
+    <article class="demo">
+      <video controls playsinline preload="metadata" poster="posters/demo-2.jpg">
+        <source src="videos/demo-2-leads-facturas.mp4" type="video/mp4">
+        Your browser cannot play this video.
+      </video>
+      <div class="demo-body">
+        <div class="demo-top">
+          <h3>Two back-office flows, with the odd cases handled</h3>
+          <span class="pill">Form + PDF</span>
+        </div>
+        <p>
+          A public form that delivers into the CRM and a PDF-to-Excel invoice converter.
+          Both with validation, deduplication and delivery with retries.
+        </p>
+        <ul>
+          <li><b>Incomplete lead:</b> it is not lost, it goes to review and the team is notified.</li>
+          <li><b>Duplicate lead:</b> detected by fingerprint before writing; no duplicate rows or alerts.</li>
+          <li><b>Invoice:</b> extracts the text, checks that subtotal + tax matches the total, deduplicates by invoice number.</li>
+          <li><b>Unreadable PDF:</b> goes to review with the reason. Numbers are never invented.</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>The standard I apply to everything</h2></div>
+    <div class="grid">
+      <div class="card"><h4>Explicit errors</h4><p>Nothing fails silently: every error is logged with its reason and its payload.</p></div>
+      <div class="card"><h4>Retries with backoff</h4><p>Without repeating completed stages. State only advances after a successful delivery.</p></div>
+      <div class="card"><h4>Zero duplicates</h4><p>Deduplication key checked before writing, on inputs and on re-runs.</p></div>
+      <div class="card"><h4>State per stage</h4><p>Data tables and audit trails so you always know where each record stands.</p></div>
+      <div class="card"><h4>Documented inside</h4><p>Sticky notes and a README so the flow can be maintained without guessing.</p></div>
+      <div class="card"><h4>Export included</h4><p>You get the workflow JSON to import into your own n8n instance.</p></div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="sec-head"><h2>How I work</h2></div>
+    <div class="steps">
+      <div class="step"><h4>Scope</h4><p>I review your process, the systems it touches and the failure cases. You get a scope within 24 hours.</p></div>
+      <div class="step"><h4>Fixed price</h4><p>Fixed fee per build. No surprise hours, no open-ended retainers.</p></div>
+      <div class="step"><h4>Delivery</h4><p>Working workflow, documentation and JSON export. You test it before it goes live.</p></div>
+      <div class="step"><h4>Maintenance</h4><p>Optional monthly monitoring, adjustments and support so the flow keeps holding up.</p></div>
+    </div>
+  </section>
+
+  <div class="final">
+    <h2>Do you have a process that breaks or eats your hours?</h2>
+    <p>
+      Tell me what goes in, what comes out and what happens when something fails. If it fits,
+      you get a build proposal with a fixed price and a delivery date. I take 2–4 builds a month.
+    </p>
+    <div class="cta" style="margin-top:18px">
+      <a class="btn" href="https://github.com/Gael3425" target="_blank" rel="noopener">Message me on GitHub</a>
+      <a class="btn ghost" href="#demo-1">Back to the demo</a>
+    </div>
+    <p class="note">You can also reply to the message where I shared this link.</p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Gael · n8n automation · fixed price per build</span>
+    <span>Demo data · 2026</span>
+  </div>
+</footer>
+
+</body>
+</html>
