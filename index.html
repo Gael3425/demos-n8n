@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gael · Automatizaciones n8n que no se rompen</title>
+<meta name="description" content="Dos demos reales de automatización con n8n: recuperación de carritos abandonados con reintentos e idempotencia, y captura de leads + facturas PDF a Excel. Sin maquetas.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Gael · Automatizaciones n8n que no se rompen">
+<meta property="og:description" content="Demos reales: errores, reintentos y cero duplicados. Mira los dos flujos completos.">
+<meta property="og:image" content="posters/demo-1.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root{
+    --bg:#0b0e13; --bg2:#11161d; --card:#151b24; --line:#232c38;
+    --text:#e8eef6; --muted:#93a1b3; --accent:#ff6d5a; --accent2:#ffb199;
+    --ok:#5ad1a5;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1060px; margin:0 auto; padding:0 22px}
+  header{
+    position:sticky; top:0; z-index:10; backdrop-filter:blur(10px);
+    background:rgba(11,14,19,.82); border-bottom:1px solid var(--line);
+  }
+  header .wrap{display:flex; align-items:center; justify-content:space-between; height:62px}
+  .brand{font-weight:800; letter-spacing:.2px}
+  .brand span{color:var(--accent)}
+  nav a{color:var(--muted); font-size:14px; margin-left:20px}
+  nav a:hover{color:var(--text); text-decoration:none}
+  .hero{padding:72px 0 34px}
+  .eyebrow{
+    display:inline-block; font-size:12px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--accent2); border:1px solid var(--line); border-radius:999px;
+    padding:6px 12px; margin-bottom:18px; background:var(--bg2);
+  }
+  h1{font-size:clamp(30px,4.4vw,52px); line-height:1.12; margin:0 0 18px; letter-spacing:-.02em}
+  h1 em{font-style:normal; color:var(--accent)}
+  .lead{font-size:clamp(16px,1.6vw,19px); color:var(--muted); max-width:760px; margin:0 0 26px}
+  .cta{display:flex; flex-wrap:wrap; gap:12px; align-items:center}
+  .btn{
+    display:inline-block; padding:12px 20px; border-radius:10px; font-weight:700; font-size:15px;
+    border:1px solid var(--accent); background:var(--accent); color:#1a0d0a;
+  }
+  .btn:hover{filter:brightness(1.06); text-decoration:none}
+  .btn.ghost{background:transparent; color:var(--text); border-color:var(--line)}
+  .btn.ghost:hover{border-color:var(--muted)}
+  .note{color:var(--muted); font-size:13px; margin-top:14px}
+  section{padding:26px 0}
+  .sec-head{display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:18px}
+  h2{font-size:clamp(22px,2.6vw,30px); margin:0; letter-spacing:-.01em}
+  .tag{font-size:12px; color:var(--muted); border:1px solid var(--line); padding:4px 9px; border-radius:999px; white-space:nowrap}
+  .demo{
+    background:linear-gradient(180deg,var(--card),#121821);
+    border:1px solid var(--line); border-radius:16px; overflow:hidden; margin-bottom:26px;
+  }
+  .demo video{display:block; width:100%; aspect-ratio:16/9; background:#000}
+  .demo-body{padding:22px 22px 24px}
+  .demo-top{display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:6px}
+  .demo-top h3{margin:0; font-size:20px}
+  .pill{font-size:12px; color:var(--ok); border:1px solid rgba(90,209,165,.35); background:rgba(90,209,165,.08); padding:3px 9px; border-radius:999px}
+  .demo p{color:var(--muted); margin:6px 0 14px}
+  .demo ul{margin:0; padding-left:20px; color:var(--text)}
+  .demo li{margin:6px 0}
+  .demo li b{color:var(--accent2)}
+  .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px}
+  .card h4{margin:0 0 6px; font-size:15px}
+  .card p{margin:0; color:var(--muted); font-size:14px}
+  .steps{counter-reset:s; display:grid; grid-template-columns:repeat(4,1fr); gap:14px}
+  .step{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; position:relative}
+  .step:before{
+    counter-increment:s; content:counter(s); position:absolute; top:-10px; left:16px;
+    width:24px; height:24px; border-radius:50%; background:var(--accent); color:#1a0d0a;
+    font-weight:800; font-size:13px; display:grid; place-items:center;
+  }
+  .step h4{margin:6px 0 4px; font-size:15px}
+  .step p{margin:0; color:var(--muted); font-size:14px}
+  .final{
+    margin:18px 0 60px; border:1px solid var(--line); border-radius:18px; padding:34px;
+    background:radial-gradient(900px 240px at 20% 0%,rgba(255,109,90,.16),transparent),var(--bg2);
+  }
+  .final h2{margin-bottom:8px}
+  .final p{color:var(--muted); max-width:680px}
+  footer{border-top:1px solid var(--line); padding:26px 0 40px; color:var(--muted); font-size:13px}
+  footer .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px}
+  @media (max-width:860px){
+    .grid{grid-template-columns:1fr 1fr}
+    .steps{grid-template-columns:1fr 1fr}
+    nav{display:none}
+  }
+  @media (max-width:560px){
+    .grid,.steps{grid-template-columns:1fr}
+    .hero{padding-top:48px}
+    .final{padding:24px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">Gael <span>·</span> automatizaciones n8n</div>
+    <nav>
+      <a href="#demo-1">Carrito abandonado</a>
+      <a href="#demo-2">Leads y facturas</a>
+      <a href="#como-trabajo">Cómo trabajo</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <span class="eyebrow">Portafolio · n8n self-hosted</span>
+    <h1>Automatizaciones que aguantan el caso real: <em>errores, reintentos y cero duplicados</em>.</h1>
+    <p class="lead">
+      Dos demos grabados de punta a punta. Nada de maquetas: webhooks reales, tablas de datos,
+      ejecuciones en vivo y el caso de fallo incluido. Es lo que un negocio necesita antes de
+      confiar su operación a un flujo.
+    </p>
+    <div class="cta">
+      <a class="btn" href="#demo-1">Ver el demo de fallos (1:58)</a>
+      <a class="btn ghost" href="#demo-2">Ver leads y facturas (1:28)</a>
+    </div>
+    <p class="note">Datos de demostración. No hay información de clientes reales.</p>
+  </div>
+
+  <section id="demo-1">
+    <div class="sec-head">
+      <h2>1 · Recuperación de carritos abandonados</h2>
+      <span class="tag">1:58 · 1080p</span>
+    </div>
+    <article class="demo">
+      <video controls playsinline preload="metadata" poster="posters/demo-1.jpg">
+        <source src="videos/demo-1-carrito.mp4" type="video/mp4">
+        Tu navegador no puede reproducir este video.
+      </video>
+      <div class="demo-body">
+        <div class="demo-top">
+          <h3>El caso que casi nadie muestra: cuando la API falla</h3>
+          <span class="pill">Flujo completo</span>
+        </div>
+        <p>
+          Tres entradas (carrito abandonado, compra completada y un proceso programado cada hora),
+          una máquina de estados y una tabla de auditoría. Todo separado por módulos y documentado
+          dentro del propio workflow.
+        </p>
+        <ul>
+          <li><b>Idempotencia real:</b> el mismo evento se reenvía y no crea fila ni recordatorio nuevo.</li>
+          <li><b>Fallo de la API de correo:</b> tres intentos con espera, el estado no avanza y se guarda el último error con el mensaje original.</li>
+          <li><b>Reejecutar es seguro:</b> el scheduler vuelve a pasar y las cifras no cambian.</li>
+          <li><b>Recuperación:</b> si el cliente compra, el webhook corta la secuencia y no vuelve a escribirle.</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section id="demo-2">
+    <div class="sec-head">
+      <h2>2 · Captura de leads y facturas PDF a Excel</h2>
+      <span class="tag">1:28 · 1080p</span>
+    </div>
+    <article class="demo">
+      <video controls playsinline preload="metadata" poster="posters/demo-2.jpg">
+        <source src="videos/demo-2-leads-facturas.mp4" type="video/mp4">
+        Tu navegador no puede reproducir este video.
+      </video>
+      <div class="demo-body">
+        <div class="demo-top">
+          <h3>Dos flujos de back office, con los casos raros resueltos</h3>
+          <span class="pill">Formulario + PDF</span>
+        </div>
+        <p>
+          Un formulario público que entrega al sistema de clientes y un convertidor de facturas
+          PDF a Excel. Los dos con validación, deduplicación y entrega con reintentos.
+        </p>
+        <ul>
+          <li><b>Lead incompleto:</b> no se pierde, queda en revisión y avisa al equipo.</li>
+          <li><b>Lead repetido:</b> se detecta por huella antes de escribir; no duplica filas ni avisos.</li>
+          <li><b>Factura:</b> extrae el texto, valida que subtotal + IVA cuadre con el total y deduplica por folio.</li>
+          <li><b>PDF ilegible:</b> queda en revisión con el motivo. Nunca se inventan números.</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>El estándar que aplico a todo</h2></div>
+    <div class="grid">
+      <div class="card"><h4>Errores explícitos</h4><p>Nada falla en silencio: cada error queda registrado con su motivo y su payload.</p></div>
+      <div class="card"><h4>Reintentos con espera</h4><p>Sin duplicar etapas ya completadas. El estado avanza solo cuando la entrega fue exitosa.</p></div>
+      <div class="card"><h4>Nada se duplica</h4><p>Clave de deduplicación verificada antes de escribir, en entradas y reejecuciones.</p></div>
+      <div class="card"><h4>Estado por etapa</h4><p>Tablas de datos y auditoría para saber dónde está cada registro en todo momento.</p></div>
+      <div class="card"><h4>Documentado dentro</h4><p>Sticky notes y README para que el flujo se pueda mantener sin adivinar.</p></div>
+      <div class="card"><h4>Export incluido</h4><p>Entregamos el JSON del workflow para importarlo en tu instancia de n8n.</p></div>
+    </div>
+  </section>
+
+  <section id="como-trabajo">
+    <div class="sec-head"><h2>Cómo trabajo</h2></div>
+    <div class="steps">
+      <div class="step"><h4>Alcance</h4><p>Reviso tu proceso, los sistemas que toca y los casos de fallo. Te mando un alcance en 24 h.</p></div>
+      <div class="step"><h4>Precio fijo</h4><p>Pago fijo por implementación. Sin horas sorpresa ni bolsas abiertas.</p></div>
+      <div class="step"><h4>Entrega</h4><p>Workflow funcionando, documentación y export JSON. Lo pruebas antes de producción.</p></div>
+      <div class="step"><h4>Mantenimiento</h4><p>Monitoreo, ajustes y soporte mensual opcional para que el flujo siga aguantando.</p></div>
+    </div>
+  </section>
+
+  <div class="final">
+    <h2>¿Tienes un proceso que se rompe o te quita horas?</h2>
+    <p>
+      Cuéntame qué entra, qué sale y qué pasa cuando algo falla. Si encaja, te propongo un build
+      con precio fijo y fecha de entrega. Trabajo con 2–4 builds al mes.
+    </p>
+    <div class="cta" style="margin-top:18px">
+      <a class="btn" href="https://github.com/Gael3425" target="_blank" rel="noopener">Escríbeme por GitHub</a>
+      <a class="btn ghost" href="#demo-1">Volver a ver el demo</a>
+    </div>
+    <p class="note">También puedes responder al mensaje donde te compartí este enlace.</p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Gael · automatizaciones n8n · pago fijo por build</span>
+    <span>Datos de demostración · 2026</span>
+  </div>
+</footer>
+
+</body>
+</html>
